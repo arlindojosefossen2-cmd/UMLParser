@@ -99,4 +99,33 @@ public final class UMLParserSaveJButton
 		
 		ImageIO.write(img,"png",file);
 	}
+	
+	public void saveAllJButtons(File file,JLabel canvas) throws IOException
+	{
+		int w = 0;
+		int h = 0;
+		
+		for(Component l : canvas.getComponents())
+		{
+			w = Math.max(w, l.getX() + l.getWidth());	
+			h = Math.max(l.getY() + l.getHeight(), h);
+		}
+		
+		final BufferedImage img = new BufferedImage(w+32, h+32, BufferedImage.TYPE_INT_ARGB);
+		final Graphics2D g = img.createGraphics();
+		
+		for(Component l : canvas.getComponents())
+		{
+			if(l instanceof JButton jl)
+			{
+				if(jl.getPressedIcon() != null && jl.isVisible())
+				{
+					g.drawImage(((ImageIcon)jl.getIcon()).getImage(),jl.getX(), jl.getY(), canvas);
+				}
+			}
+		}
+		
+		g.dispose();
+		ImageIO.write(img, "png", file);
+	}
 }

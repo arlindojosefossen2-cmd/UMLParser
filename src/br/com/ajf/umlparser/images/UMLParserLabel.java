@@ -36,7 +36,7 @@ public final class UMLParserLabel implements IUMLParserComponent
         final String toolTipText = UMLParserInfo.tooTip(className);
         label = new JLabel(new ImageIcon(umlParserImage.getImg()));
         label.setBounds(0,0,label.getIcon().getIconWidth(),label.getIcon().getIconHeight());
-        
+        label.setSize(label.getIcon().getIconWidth(), label.getIcon().getIconHeight());
         label.setToolTipText(toolTipText);
         
         final MouseInput mouse = new MouseInput(this);

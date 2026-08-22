@@ -25,6 +25,7 @@ import br.com.ajf.umlparser.files.JMapFileChooser;
 import br.com.ajf.umlparser.files.ShowSaveDialog;
 import br.com.ajf.umlparser.files.UMLParserFileChooser;
 import br.com.ajf.umlparser.files.UMLParserSaveJButton;
+
 import br.com.ajf.umlparser.images.UMLParserButton;
 import br.com.ajf.umlparser.images.UMLParserImageButtonPackage;
 import br.com.ajf.umlparser.parsers.IUMLParser;
@@ -43,7 +44,6 @@ import br.com.ajf.umlparser.utils.UMLParserToolTip;
                   Description = "Launch class using buttons.")
 public final class UMLParserAppView2
 {
-    
     /** The canvas. */
     private JLabel canvas;
     
@@ -122,6 +122,18 @@ public final class UMLParserAppView2
         item.setToolTipText("Just save the First UML that you in the Project.");
         menu.add(item);
         
+        item = new JMenuItem(new AbstractAction("Save the All UMLS as PNG")
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                saveAllUMLASPNG();
+            }
+        });
+        
+        item.setToolTipText("Just save All UMLS that you open in the Project.");
+        menu.add(item);
+        
         item = new JMenuItem(new AbstractAction("Save the First Package UML as PNG")
         {
             @Override
@@ -178,6 +190,26 @@ public final class UMLParserAppView2
     }
     
     /**
+     * Save all UMLASPNG.
+     */
+    protected void saveAllUMLASPNG()
+	{
+    	final File file = ShowSaveDialog.showSaveDialog(window);
+    	
+    	if(file != null)
+    	{
+    		try
+    		{
+    			new UMLParserSaveJButton().saveAllJButtons(file,canvas);
+    		}
+    		catch(IOException e)
+    		{
+    			UMLParserInfo.show("ERROR", e.getMessage());
+    		}
+    	}
+	}
+
+	/**
      * Save package UMLASPNG.
      */
     protected void savePackageUMLASPNG()

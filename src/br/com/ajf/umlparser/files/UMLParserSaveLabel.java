@@ -3,6 +3,7 @@ package br.com.ajf.umlparser.files;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Graphics2D;
+
 import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
@@ -93,5 +94,32 @@ public final class UMLParserSaveLabel
 		g.dispose();
 		
 		ImageIO.write(img,"png",file);
+	}
+	
+	public void saveAllLabels(File file,JLabel canvas) throws IOException
+	{
+		int w = 0;
+		int h = 0;
+		
+		for(Component l : canvas.getComponents())
+		{
+			w = Math.max(w, l.getX() + l.getWidth());	
+			h = Math.max(l.getY() + l.getHeight(), h);
+		}
+		
+		final BufferedImage img = new BufferedImage(w+32, h+32, BufferedImage.TYPE_INT_ARGB);
+		final Graphics2D g = img.createGraphics();
+		
+		for(Component l : canvas.getComponents())
+		{
+			final JLabel jl = (JLabel)l;
+			if(jl.getIcon() != null && jl.isVisible())
+			{
+				g.drawImage(((ImageIcon)jl.getIcon()).getImage(),jl.getX(), jl.getY(), canvas);
+			}
+		}
+		
+		g.dispose();
+		ImageIO.write(img, "png", file);
 	}
 }

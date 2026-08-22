@@ -50,7 +50,7 @@ public final class UMLParserAppView
     
     /** The pk list. */
     private final List<JLabel> pkList = new LinkedList<>();
-    
+   
     /**
      * Instantiates a new UML parser app view.
      */
@@ -121,6 +121,19 @@ public final class UMLParserAppView
         item.setToolTipText("Just save First UML that you open in the Project.");
         menu.add(item);
         
+        item = new JMenuItem(new AbstractAction("Save the All UMLS as PNG")
+        {
+            @Override
+            public void actionPerformed(ActionEvent e)
+            {
+                saveAllUMLASPNG();
+            }
+        });
+        
+        item.setToolTipText("Just save All UMLS that you open in the Project.");
+        menu.add(item);
+        
+        
         item = new JMenuItem(new AbstractAction("Save the First Package UML as PNG")
         {
             @Override
@@ -178,6 +191,26 @@ public final class UMLParserAppView
     }
     
     /**
+     * Save all UMLASPNG.
+     */
+    protected void saveAllUMLASPNG()
+	{
+    	final File file = ShowSaveDialog.showSaveDialog(window);
+    	
+    	if(file != null)
+    	{
+    		try
+    		{
+    			new UMLParserSaveLabel().saveAllLabels(file,canvas);
+    		}
+    		catch(IOException e)
+    		{
+    			UMLParserInfo.show("ERROR", e.getMessage());
+    		}
+    	}
+	}
+
+	/**
      * Save package UMLASPNG.
      */
     protected void savePackageUMLASPNG()
@@ -279,7 +312,7 @@ public final class UMLParserAppView
             maxHeight = Math.max(img.getCanvas().getHeight(),maxHeight);
             x += img.getCanvas().getWidth();
             
-            if(x > canvas.getWidth())
+            if(x + img.getCanvas().getWidth() >= canvas.getWidth())
             {
                 x = 8;
                 y += (int) (maxHeight * 0.75 + 8);

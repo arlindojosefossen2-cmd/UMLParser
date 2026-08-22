@@ -8,6 +8,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * The Class UMLParserImageLabelPackage.
@@ -46,38 +47,37 @@ public class UMLParserImageLabelPackage
         canvas.add(jLabel);
         jLabel.setLocation(0, 0);
         
-        final List<UMLParserLabel> labels = new LinkedList<>();
-        int maxHeight = 0;
-        int maxWidth = 0;
-        
-        for (String cn : classNames)
-        {
-            final UMLParserLabel img = new UMLParserLabel(parser, cn, window);
-            maxHeight = Math.max(maxHeight, img.getComponent().getHeight());
-            maxWidth += img.getComponent().getWidth();
-            
-            labels.add(img);
-        }
-        
-        this.canvas.setSize(maxWidth+96, maxHeight+96);
-       
+        final List<UMLParserLabel> labels = new LinkedList<>(classNames.stream().map(cn -> new UMLParserLabel(parser, cn, window)).collect(Collectors.toList()));
+
         int x = 8;
         int y = 32;
+        int w = 0;
+        int h = 0;
+        int maxHeight = 0;
         
         for(UMLParserLabel img : labels)
         {
-            canvas.add(img.getComponent());
-            canvas.add(img.getToolTipLabel(),0);
             img.getComponent().setLocation(x, y);
             
+            w = Math.max(w, img.getComponent().getX()+img.getComponent().getWidth());
+            h = Math.max(img.getComponent().getY()+img.getComponent().getHeight(), h);
+            maxHeight = Math.max(maxHeight, img.getComponent().getHeight());
             x += img.getComponent().getWidth() + 8;
             
-            if (x >= canvas.getWidth())
+            if (x + img.getComponent().getWidth() >=  620)
             {
                 x = 8;
-                y += maxHeight + 16;
+                y += maxHeight + 8;
             }
         }
+        
+        canvas.setSize(w, h);
+        
+        labels.forEach(l -> 
+        {
+        	canvas.add(l.getToolTipLabel(),0);  
+            canvas.add(l.getComponent(),1);
+        });
         
         this.canvas.repaint();
     }
