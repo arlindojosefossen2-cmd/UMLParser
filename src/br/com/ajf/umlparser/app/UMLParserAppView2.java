@@ -20,7 +20,6 @@ import javax.swing.JMenuBar;
 import javax.swing.JMenuItem;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-import javax.swing.SwingUtilities;
 
 import br.com.ajf.umlparser.files.JMapFileChooser;
 import br.com.ajf.umlparser.files.ShowSaveDialog;
@@ -329,6 +328,6 @@ public final class UMLParserAppView2
      */
     public static void main(String[] args)
     {
-        SwingUtilities.invokeLater(() -> new UMLParserAppView2().create("UML_Parser-1.0-ByAJF"));
+        new UMLParserAppView2().create("UML_Parser_Using_JButton-1.0-ByAJF");
     }
 }
