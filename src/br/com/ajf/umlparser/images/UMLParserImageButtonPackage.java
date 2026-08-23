@@ -15,7 +15,6 @@ import java.util.stream.Collectors;
  */
 public class UMLParserImageButtonPackage
 {
-    
     /** The canvas. */
     private final JLabel canvas;
     
@@ -49,35 +48,47 @@ public class UMLParserImageButtonPackage
         
         final List<UMLParserButton> labels = new LinkedList<>(classNames.stream().map(cn -> new UMLParserButton(window,parser,cn)).collect(Collectors.toList()));
 
+        int maxWidth = 0;
+        int maxHeight = 0;
+        int areaTotal = 0;
+        
+        for(UMLParserButton l : labels)
+        {
+        	maxWidth = Math.max(maxWidth,l.getComponent().getWidth());
+        	maxHeight = Math.max(maxHeight, l.getComponent().getHeight());
+        	areaTotal += l.getComponent().getWidth()*l.getComponent().getHeight(); 
+        }
+        
+        if(maxWidth >= maxHeight)
+        {
+        	maxWidth = (int) (maxWidth*2f);
+        	maxHeight = (int) (areaTotal/(maxWidth*1.0f));
+        }
+        else
+        {
+        	maxWidth = areaTotal/maxHeight;
+        }
+        
         int x = 8;
         int y = 32;
-        int w = 0;
-        int h = 0;
-        int maxHeight = 0;
+      
+        canvas.setSize(maxWidth+128, maxHeight+128);
         
         for(UMLParserButton img : labels)
         {
+        	canvas.add(img.getToolTipLabel(), 0);
+            canvas.add(img.getComponent(), 1);
             img.getComponent().setLocation(x, y);
-            
-            w = Math.max(w, img.getComponent().getX()+img.getComponent().getWidth());
-            h = Math.max(img.getComponent().getY()+img.getComponent().getHeight(), h);
-            maxHeight = Math.max(maxHeight, img.getComponent().getHeight());
+           
+            maxHeight = img.getComponent().getHeight();
             x += img.getComponent().getWidth() + 8;
             
-            if (x + img.getComponent().getWidth() >=  620)
+            if (x >= canvas.getWidth())
             {
                 x = 8;
                 y += maxHeight + 8;
             }
         }
-        
-        canvas.setSize(w, h);
-        
-        labels.forEach(l -> 
-        {
-        	canvas.add(l.getToolTipLabel(),0);  
-            canvas.add(l.getComponent(),1);
-        });
         
         this.canvas.repaint();
     }

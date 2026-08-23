@@ -72,6 +72,8 @@ public final class UMLParserSaveJButton
 		final Graphics2D g = img.createGraphics();
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(0,0,img.getWidth(),img.getHeight());
+		g.setColor(Color.red);
+		g.drawRect(2, 12, img.getWidth()-8, img.getHeight()-12);
 		
 		for(Component c : jc.getComponents())
 		{
@@ -87,6 +89,8 @@ public final class UMLParserSaveJButton
 			{
 				if(jl.getText() != null)
 				{
+					g.setColor(Color.LIGHT_GRAY);
+					g.fillRoundRect(jl.getX()+2, jl.getY()+2, jl.getWidth()+2, jl.getHeight()+2,6,6);
 					g.setColor(Color.RED);
 					g.drawRoundRect(jl.getX()+2, jl.getY()+2, jl.getWidth()+2, jl.getHeight()+2,6,6);
 					g.setFont(UMLParserImage.FONT_ARIAL_14.deriveFont(16));

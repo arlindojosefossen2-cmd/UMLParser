@@ -312,10 +312,10 @@ public final class UMLParserAppView2
             maxHeight = Math.max(img.getCanvas().getHeight(),maxHeight);
             x += img.getCanvas().getWidth();
             
-            if(x > canvas.getWidth())
+            if(x >= canvas.getWidth())
             {
                 x = 16;
-                y += maxHeight + 16;
+                y += maxHeight + 8;
             }
         }
         canvas.repaint();
