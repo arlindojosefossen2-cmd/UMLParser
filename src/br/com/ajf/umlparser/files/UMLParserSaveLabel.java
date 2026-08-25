@@ -99,6 +99,13 @@ public final class UMLParserSaveLabel
 		ImageIO.write(img,"png",file);
 	}
 	
+	/**
+	 * Save all labels.
+	 *
+	 * @param file the file
+	 * @param canvas the canvas
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public void saveAllLabels(File file,JLabel canvas) throws IOException
 	{
 		int w = 0;

@@ -104,6 +104,13 @@ public final class UMLParserSaveJButton
 		ImageIO.write(img,"png",file);
 	}
 	
+	/**
+	 * Save all J buttons.
+	 *
+	 * @param file the file
+	 * @param canvas the canvas
+	 * @throws IOException Signals that an I/O exception has occurred.
+	 */
 	public void saveAllJButtons(File file,JLabel canvas) throws IOException
 	{
 		int w = 0;
